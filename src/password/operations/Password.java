@@ -44,25 +44,29 @@ public class Password {
 					hasNumber = true;
 				}
 				// 3: Contains a special character
-				else if ("!@#$%^&*()".contains(password.substring(i, i + 1))) {
+				else if ("!@#$%^&*()_-.,".contains(password.substring(i, i + 1))) {
 					hasSpecial = true;
 				} else {
 					try {
 						throw new InvalidCharacterException(password.substring(i, i + 1));
 					} catch (InvalidCharacterException e) {
 						e.toString();
+						break;
 
 					}
 				}
 			}
-//			if (hasInvalidChar) {
-//				System.out.println("Invalid Character");
-//			} 
-			if (!hasLetter || !hasNumber || !hasSpecial) {
-				System.out.println("Missing Criteria");
-
-			} else {
-				System.out.println("Valid Password");
+			try {
+				if (!hasNumber) {
+					throw new InvalidNumberCriteria(password);
+				} else if (!hasLetter) {
+					throw new InvalidCharacterCriteria(password);
+				} else {
+					throw new InvalidSpecialCharacterCriteria(password);
+				}
+			} catch(InvalidNumberCriteria | InvalidCharacterCriteria | InvalidSpecialCharacterCriteria e  ) {
+				System.out.println("Invalid Password");
+				System.out.println(e.toString());
 			}
 
 		}
@@ -81,4 +85,43 @@ class InvalidCharacterException extends Exception {
 	public String toString() {
 		return "InvalidCharacterException" + ch;
 	}
+}
+
+class InvalidNumberCriteria extends Exception {
+	String str;
+
+	InvalidNumberCriteria(String str) {
+		this.str = str;
+	}
+
+	public String toString() {
+		return "Invalid Number Criteria " + str;
+	}
+
+}
+
+class InvalidCharacterCriteria extends Exception {
+	String str;
+
+	InvalidCharacterCriteria(String str) {
+		this.str = str;
+	}
+
+	public String toString() {
+		return "Invalid Character Criteria " + str;
+	}
+
+}
+
+class InvalidSpecialCharacterCriteria extends Exception {
+	String str;
+
+	InvalidSpecialCharacterCriteria(String str) {
+		this.str = str;
+	}
+
+	public String toString() {
+		return "Invalid Special Character Criteria " + str;
+	}
+
 }
