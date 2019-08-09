@@ -32,7 +32,6 @@ public class Password {
 			boolean hasLetter = false;
 			boolean hasNumber = false;
 			boolean hasSpecial = false;
-			boolean hasInvalidChar = false;
 
 			for (int i = 0; i < passwords.length; i++) {
 				// 1: Contains letter
@@ -61,9 +60,10 @@ public class Password {
 					throw new InvalidNumberCriteria(password);
 				} else if (!hasLetter) {
 					throw new InvalidCharacterCriteria(password);
-				} else {
+				} else if(!hasSpecial) {
 					throw new InvalidSpecialCharacterCriteria(password);
-				}
+				} else System.out.println("Valid Password");
+				
 			} catch(InvalidNumberCriteria | InvalidCharacterCriteria | InvalidSpecialCharacterCriteria e  ) {
 				System.out.println("Invalid Password");
 				System.out.println(e.toString());
@@ -83,7 +83,7 @@ class InvalidCharacterException extends Exception {
 	}
 
 	public String toString() {
-		return "InvalidCharacterException" + ch;
+		return "InvalidCharacterException : " + ch;
 	}
 }
 
@@ -95,7 +95,7 @@ class InvalidNumberCriteria extends Exception {
 	}
 
 	public String toString() {
-		return "Invalid Number Criteria " + str;
+		return "Invalid Number Criteria : " + str;
 	}
 
 }
@@ -108,7 +108,7 @@ class InvalidCharacterCriteria extends Exception {
 	}
 
 	public String toString() {
-		return "Invalid Character Criteria " + str;
+		return "Invalid Character Criteria : " + str;
 	}
 
 }
@@ -121,7 +121,7 @@ class InvalidSpecialCharacterCriteria extends Exception {
 	}
 
 	public String toString() {
-		return "Invalid Special Character Criteria " + str;
+		return "Invalid Special Character Criteria : " + str;
 	}
 
 }
